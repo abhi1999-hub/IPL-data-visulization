@@ -11,36 +11,37 @@ function noOfMatchesPerYear(matches){
     return noOfMatches
 }
 function noOfMatchWonPerYear(matches){
-    w={}
-    matches.forEach( a => {
-    if(a.result==='normal'){
-        if(!w.hasOwnProperty(a.season)){
-            w[a.season]={}
-            w[a.season][a.winner]=0;
+    let result=matches.reduce((noOfMatchesWon,a)=>{
+        if(a.result==='normal'){
+            if(!noOfMatchesWon.hasOwnProperty(a.season)){
+                noOfMatchesWon[a.season]={}
+                noOfMatchesWon[a.season][a.winner]=0;
+            }
+            if(noOfMatchesWon.hasOwnProperty(a.season) && noOfMatchesWon[a.season].hasOwnProperty(a.winner)){
+                noOfMatchesWon[a.season][a.winner]+=1;
+            }
+            else{
+                noOfMatchesWon[a.season][a.winner]=1;
+            }
         }
-        if(w.hasOwnProperty(a.season) && w[a.season].hasOwnProperty(a.winner)){
-            w[a.season][a.winner]+=1;
-        }
-        else{
-            w[a.season][a.winner]=1;
-        }
-    }
-    })
-    return w;
+        return noOfMatchesWon; 
+    },{})
+    return result;
 }
-function extraruns(deliveries,id2016,end){
-    r={}
-    deliveries.forEach( a =>{
-      if(a.match_id >=id2016+1 && a.match_id<=(id2016+end)){
-        if(r[a.bowling_team]){
-            r[a.bowling_team]+=a.extra_runs;
-        }
-        else{
-            r[a.bowling_team]=a.extra_runs;
-        }
+function extraRuns2016(deliveries,id2016,end){
+    let extraruns=deliveries.reduce((accumulator,a)=>{
+        if(a.match_id >=id2016+1 && a.match_id<=(end)){
+            if(accumulator[a.bowling_team]){
+                accumulator[a.bowling_team]+=a.extra_runs;
+            }
+            else{
+                accumulator[a.bowling_team]=a.extra_runs;
+            }
+            
     }
-    });
-    return r;
+    return accumulator;
+},{})
+   return extraruns;
 }
 
 function bowlereco(deliveries,id2015,end){
