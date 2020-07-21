@@ -1,98 +1,81 @@
 function noOfMatchesPerYear(matches){
-    let noOfMatches={}
-    matches.forEach( a => {
-        if(noOfMatches.hasOwnProperty(a.season)){
-            noOfMatches[a.season]+=1;
+    let noOfMatches=matches.reduce((accumulator,a)=>{
+        if(accumulator.hasOwnProperty(a.season)){
+            accumulator[a.season]+=1;
         }
         else{
-            noOfMatches[a.season]=1;
+            accumulator[a.season]=1;
         }
-    });
+        return accumulator;
+    },{});
     return noOfMatches
 }
-
-
-
 function noOfMatchWonPerYear(matches){
-    let noOfMatchesWon={}
+    w={}
     matches.forEach( a => {
-        if(a.result==='normal'){
-            if(!noOfMatchesWon.hasOwnProperty(a.season)){
-                noOfMatchesWon[a.season]={}
-                noOfMatchesWon[a.season][a.winner]=0;
-            }
-            if(noOfMatchesWon.hasOwnProperty(a.season) && noOfMatchesWon[a.season].hasOwnProperty(a.winner)){
-                noOfMatchesWon[a.season][a.winner]+=1;
-            }
-            else{
-                noOfMatchesWon[a.season][a.winner]=1;
-            }
-        }   
-    });
-    return noOfMatchesWon;
-}
-
-
-function extraRuns2016(deliveries,id2016,end){
-    let extraruns={}
-    deliveries.forEach( a =>{
-      if(a.match_id >=id2016+1 && a.match_id<=(end)){
-        if(extraruns[a.bowling_team]){
-            extraruns[a.bowling_team]+=a.extra_runs;
+    if(a.result==='normal'){
+        if(!w.hasOwnProperty(a.season)){
+            w[a.season]={}
+            w[a.season][a.winner]=0;
+        }
+        if(w.hasOwnProperty(a.season) && w[a.season].hasOwnProperty(a.winner)){
+            w[a.season][a.winner]+=1;
         }
         else{
-            extraruns[a.bowling_team]=a.extra_runs;
+            w[a.season][a.winner]=1;
+        }
+    }
+    })
+    return w;
+}
+function extraruns(deliveries,id2016,end){
+    r={}
+    deliveries.forEach( a =>{
+      if(a.match_id >=id2016+1 && a.match_id<=(id2016+end)){
+        if(r[a.bowling_team]){
+            r[a.bowling_team]+=a.extra_runs;
+        }
+        else{
+            r[a.bowling_team]=a.extra_runs;
         }
     }
     });
-    return extraruns;
+    return r;
 }
 
-
-
-function topTenEcoBowler2015(deliveries,id2015,end){
-    let TotalRunsAndBalls={}
+function bowlereco(deliveries,id2015,end){
+    let e={}
     deliveries.forEach( a=> {
-        if(a.match_id >=id2015+1 && a.match_id<=end){
-          if(!TotalRunsAndBalls.hasOwnProperty(a["bowler"])){
-                TotalRunsAndBalls[a["bowler"]]={}
-                TotalRunsAndBalls[a["bowler"]]["runs"]=a.total_runs-a.bye_runs-a.legbye_runs
-                if(a.noball_runs==0 && a.wide_runs==0){
-                    TotalRunsAndBalls[a["bowler"]]["balls"]=1;
-                }
-                else {
-                    TotalRunsAndBalls[a["bowler"]]["balls"]=0;
-                }
-                 
+        if(a.match_id >=id2015+1 && a.match_id<=(id2015+end)){
+          if(!e.hasOwnProperty(a.bowler)){
+                  e[a.bowler]={}
+                  e[a.bowler]["runs"]=0;
+                  e[a.bowler]["balls"]=0;
           }
           else{
-              TotalRunsAndBalls[a["bowler"]]["runs"]+=a.total_runs-a.bye_runs-a.legbye_runs
-              if(a.noball_runs==0 && a.wide_runs==0){
-                TotalRunsAndBalls[a["bowler"]]["balls"]+=1;
-              }
+              e[a.bowler]["runs"]+=a.total_runs;
+              e[a.bowler]["balls"]+=1;
           }
         }
     });
-    let totalRunsandOvers=[]; 
-    for(let i in TotalRunsAndBalls){
-        temp=TotalRunsAndBalls[i]["runs"]/(TotalRunsAndBalls[i]["balls"]/6)
-        totalRunsandOvers.push([i,parseFloat(temp.toFixed(2))])
+    let sort1=[]; 
+   for(let i in e){
+        temp=e[i]["runs"]/(e[i]["balls"]/6)
+        sort1.push([i,parseFloat(temp.toFixed(2))])
     }
-    let sortedArray=totalRunsandOvers.sort( (a,b) =>{
+    //console.log(sort1)
+    let sorted=sort1.sort( (a,b) =>{
         return a[1]-b[1];
     });
-    
-    let  topTenEcoBowlers={};
+    //console.log(sorted)
+    let  out4={};
     for(let j=0;j<10;j++){
-        topTenEcoBowlers[sortedArray[j][0]]=sortedArray[j][1];
+        out4[sorted[j][0]]=sorted[j][1];
     }
-    console.log(topTenEcoBowlers)
-    return topTenEcoBowlers;
+    //console.log(out4)
+    return out4;
 }
-
-
-//exporting modules
 module.exports.noOfMatchesPerYear=noOfMatchesPerYear;
 module.exports.noOfMatchWonPerYear=noOfMatchWonPerYear;
-module.exports.extraRuns2016=extraRuns2016;
-module.exports.topTenEcoBowler2015=topTenEcoBowler2015;
+module.exports.extraruns=extraruns;
+module.exports.bowlereco=bowlereco;
