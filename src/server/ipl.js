@@ -44,39 +44,45 @@ function extraRuns2016(deliveries,id2016,end){
    return extraruns;
 }
 
-function bowlereco(deliveries,id2015,end){
-    let e={}
-    deliveries.forEach( a=> {
-        if(a.match_id >=id2015+1 && a.match_id<=(id2015+end)){
-          if(!e.hasOwnProperty(a.bowler)){
-                  e[a.bowler]={}
-                  e[a.bowler]["runs"]=0;
-                  e[a.bowler]["balls"]=0;
+function topTenEcoBowler2015(deliveries,id2015,end){
+    let TotalRunsAndBalls=deliveries.reduce((accumulator,a)=> {
+        if(a.match_id >=id2015+1 && a.match_id<=end){
+          if(!accumulator.hasOwnProperty(a["bowler"])){
+                accumulator[a["bowler"]]={}
+                accumulator[a["bowler"]]["runs"]=a.total_runs-a.bye_runs-a.legbye_runs
+                if(a.noball_runs==0 && a.wide_runs==0){
+                    accumulator[a["bowler"]]["balls"]=1;
+                }
+                else {
+                    accumulator[a["bowler"]]["balls"]=0;
+                }
+                 
           }
           else{
-              e[a.bowler]["runs"]+=a.total_runs;
-              e[a.bowler]["balls"]+=1;
+               accumulator[a["bowler"]]["runs"]+=a.total_runs-a.bye_runs-a.legbye_runs
+               if(a.noball_runs==0 && a.wide_runs==0){
+                accumulator[a["bowler"]]["balls"]+=1;
+              }
           }
         }
-    });
-    let sort1=[]; 
-   for(let i in e){
-        temp=e[i]["runs"]/(e[i]["balls"]/6)
-        sort1.push([i,parseFloat(temp.toFixed(2))])
+        return accumulator;
+    },{});
+    let totalRunsandOvers=[]; 
+    for(let i in TotalRunsAndBalls){
+        temp=TotalRunsAndBalls[i]["runs"]/(TotalRunsAndBalls[i]["balls"]/6)
+        totalRunsandOvers.push([i,parseFloat(temp.toFixed(2))])
     }
-    //console.log(sort1)
-    let sorted=sort1.sort( (a,b) =>{
+    let sortedArray=totalRunsandOvers.sort( (a,b) =>{
         return a[1]-b[1];
     });
-    //console.log(sorted)
-    let  out4={};
+    
+    let  topTenEcoBowlers={};
     for(let j=0;j<10;j++){
-        out4[sorted[j][0]]=sorted[j][1];
+        topTenEcoBowlers[sortedArray[j][0]]=sortedArray[j][1];
     }
-    //console.log(out4)
-    return out4;
+    return topTenEcoBowlers;
 }
 module.exports.noOfMatchesPerYear=noOfMatchesPerYear;
 module.exports.noOfMatchWonPerYear=noOfMatchWonPerYear;
-module.exports.extraruns=extraruns;
-module.exports.bowlereco=bowlereco;
+module.exports.extraRuns2016=extraRuns2016;
+module.exports.topTenEcoBowler2015=topTenEcoBowler2015;
