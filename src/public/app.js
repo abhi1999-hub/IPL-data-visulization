@@ -9,10 +9,48 @@ function convertDataFormat(d){
      }
      return data
 }
+function convertData(d){
+    accumulator={
+            "Kolkata Knight Riders":[0,0,0,0,0,0,0,0,0,0],
+            "Chennai Super Kings":[0,0,0,0,0,0,0,0,0,0],
+            "Delhi Daredevils":[0,0,0,0,0,0,0,0,0,0],
+            "Royal Challengers Bangalore":[0,0,0,0,0,0,0,0,0,0],
+            "Rajasthan Royals":[0,0,0,0,0,0,0,0,0,0],
+            "Kings XI Punjab":[0,0,0,0,0,0,0,0,0,0],
+            "Deccan Chargers":[0,0,0,0,0,0,0,0,0,0],
+            "Mumbai Indians":[0,0,0,0,0,0,0,0,0,0],
+            "Pune Warriors":[0,0,0,0,0,0,0,0,0,0],
+            "Kochi Tuskers Kerala":[0,0,0,0,0,0,0,0,0,0],
+            "Sunrisers Hyderabad":[0,0,0,0,0,0,0,0,0,0],
+            "Gujarat Lions":[0,0,0,0,0,0,0,0,0,0],
+            "Rising Pune Supergiant":[0,0,0,0,0,0,0,0,0,0]
+    }
+    let pog=0;
+    for(let element in d){
+            //console.log(d[element])
+            for(let i in d[element]){
+                accumulator[i][pog]=d[element][i];
+            }
+            pog++;
+    }
+    //console.log("converted data",accumulator)
+    output=[]
+    for(let i in accumulator){
+               output.push({name:i,
+            data:accumulator[i]})
+    }
+    console.log(output)
+    return output;
+    }
 featchData("matchesPerYear.json").then(res => res.json())
 .then((data)=>convertDataFormat(data))
 .then((data)=>drawMatchesPerYear(data))
 .catch((error)=>console.log(error));
+featchData("matchesWonPerTeamPerYear.json")
+.then(res => res.json())
+.then((data)=>convertData(data))
+/*.then((data)=>drawChart(data))
+.catch((err)=>console.log(err));*/
 function drawMatchesPerYear(d1){
     Highcharts.chart('matchPerYear', {
       chart: {
