@@ -54,8 +54,8 @@ featchData("matchesWonPerTeamPerYear.json")
 featchData("Top10EcoBowlers.json")
 .then(res => res.json())
 .then((d)=>convertDataFormat(d))
-/*.then((data)=>drawBarChart(data))
-.catch((err)=>console.log(err));*/
+.then((data)=>drawTop10EcoBowlers(data))
+.catch((err)=>console.log(err));
 function drawMatchesPerYear(d1){
     Highcharts.chart('matchPerYear', {
       chart: {
@@ -101,7 +101,7 @@ function drawMatchesPerYear(d1){
       }]
   });
   }
-  function drawMatchesWonPerYearPerTeam(d1){
+function drawMatchesWonPerYearPerTeam(d1){
     Highcharts.chart('matchesWonPerYear', {
       chart: {
           plotBackgroundColor: null,
@@ -145,4 +145,54 @@ function drawMatchesPerYear(d1){
           data: d1
       }]
   });
-  }
+}
+function drawTop10EcoBowlers(d1){
+    Highcharts.chart('top10EcoBowlers', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Top ten econamy bowlers in 2016'
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -45,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Economy rate'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: 'Economy rate in  2015: <b>{point.y:.1f} runs/over</b>'
+        },
+        series: [{
+            name: 'Bowlers',
+            data: d1
+        }],
+    
+                
+            dataLabels: {
+                enabled: true,
+                rotation: -90,
+                color: '#FFFFFF',
+                align: 'right',
+                format: '{point.y:.1f}', // one decimal
+                y: 10, // 10 pixels down from the top
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        });
+}
