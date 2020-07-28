@@ -53,9 +53,14 @@ featchData("matchesWonPerTeamPerYear.json")
 .catch((err)=>console.log(err));
 featchData("Top10EcoBowlers.json")
 .then(res => res.json())
-.then((d)=>convertDataFormat(d))
+.then((data)=>convertDataFormat(data))
 .then((data)=>drawTop10EcoBowlers(data))
 .catch((err)=>console.log(err));
+featchData("ExtraRunsPerTeam2016.json")
+.then(res => res.json())
+.then((data)=>convertDataFormat(data))
+/*.then((data)=>drawBar2Chart(data))
+.catch((err)=>console.log(err));*/
 function drawMatchesPerYear(d1){
     Highcharts.chart('matchPerYear', {
       chart: {
