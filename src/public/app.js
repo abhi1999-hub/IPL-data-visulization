@@ -59,8 +59,8 @@ featchData("Top10EcoBowlers.json")
 featchData("ExtraRunsPerTeam2016.json")
 .then(res => res.json())
 .then((data)=>convertDataFormat(data))
-/*.then((data)=>drawBar2Chart(data))
-.catch((err)=>console.log(err));*/
+.then((data)=>drawExtraRuns(data))
+.catch((err)=>console.log(err));
 function drawMatchesPerYear(d1){
     Highcharts.chart('matchPerYear', {
       chart: {
@@ -201,3 +201,53 @@ function drawTop10EcoBowlers(d1){
             }
         });
 }
+function drawExtraRuns(d1){
+    Highcharts.chart('extraRuns', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Extra runs consided by each team in 2016'
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -45,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Extra Runs'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: 'Extra Runs in 2016: <b>{point.y:.1f}</b>'
+        },
+        series: [{
+            name: 'Teams',
+            data: d1
+        }],
+    
+                
+            dataLabels: {
+                enabled: true,
+                rotation: -90,
+                color: '#FFFFFF',
+                align: 'right',
+                format: '{point.y:.1f}', // one decimal
+                y: 10, // 10 pixels down from the top
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        });
+} 
