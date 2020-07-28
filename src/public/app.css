@@ -1,0 +1,36 @@
+*{
+    padding: 0%;
+    margin: 0%;
+    background-color: rgb(255, 255, 255);
+}
+#header{
+    height: 600px;
+    width: 100%;
+    background-image: url(./wp4059802.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 600px;
+}
+h1{
+    text-align: center;
+    color:red;
+    font-weight: bold;
+    font-size:xx-large;
+    font-style: italic;
+}
+h2{
+    text-align: center;
+    color: blue;
+    font-weight: bold;
+    font-size: large;
+}
+#main{
+   
+    width: 80%;
+    margin: 0 auto;
+}
+#chart1,#chart2,#chart3{
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 5px;
+}
+
