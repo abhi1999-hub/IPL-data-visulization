@@ -49,10 +49,55 @@ featchData("matchesPerYear.json").then(res => res.json())
 featchData("matchesWonPerTeamPerYear.json")
 .then(res => res.json())
 .then((data)=>convertData(data))
-/*.then((data)=>drawChart(data))
-.catch((err)=>console.log(err));*/
+.then((data)=>drawMatchesWonPerYearPerTeam(data))
+.catch((err)=>console.log(err));
 function drawMatchesPerYear(d1){
     Highcharts.chart('matchPerYear', {
+      chart: {
+          plotBackgroundColor: null,
+          plotBorderWidth: 0,
+          plotShadow: false
+      },
+      title: {
+          text: 'IPL<br>mathches<br>share',
+          align: 'center',
+          verticalAlign: 'middle',
+          y: 60
+      },
+      tooltip: {
+          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+      },
+      accessibility: {
+          point: {
+              valueSuffix: '%'
+          }
+      },
+      plotOptions: {
+          pie: {
+              dataLabels: {
+                  enabled: true,
+                  distance: -50,
+                  style: {
+                      fontWeight: 'bold',
+                      color: 'white'
+                  }
+              },
+              startAngle: -90,
+              endAngle: 90,
+              center: ['50%', '75%'],
+              size: '110%'
+          }
+      },
+      series: [{
+          type: 'pie',
+          name: 'IPL matches count each year',
+          innerSize: '50%',
+          data: d1
+      }]
+  });
+  }
+  function drawMatchesWonPerYearPerTeam(d1){
+    Highcharts.chart('matchesWonPerYear', {
       chart: {
           plotBackgroundColor: null,
           plotBorderWidth: 0,
