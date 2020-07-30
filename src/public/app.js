@@ -31,13 +31,11 @@ function convertData(d){
     }
     let pog=0;
     for(let element in d){
-            //console.log(d[element])
             for(let i in d[element]){
                 accumulator[i][pog]=d[element][i];
             }
             pog++;
     }
-    //console.log("converted data",accumulator)
     output=[]
     for(let i in accumulator){
                output.push({name:i,
