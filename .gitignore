@@ -1,7 +1,3 @@
 node_modules/
 package-lock.json
-src/public/matchesPerYear.json
-src/public/ExtraRunsPerTeam2016.json
-src/public/matchesWonPerTeamPerYear.json
-src/public/Top10EcoBowlers.json
-src/public/wp4059802.jpg
+src/client/public

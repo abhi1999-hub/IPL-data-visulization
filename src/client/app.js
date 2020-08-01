@@ -6,11 +6,10 @@ function featchData(url){
 
 //converting data to requried format to plot using highcharts
 function convertDataFormat(d){
-    let data=[]
-     for(let i in d){
-        data.push([i,d[i]])
-     }
-     return data
+    let data=Object.keys(d).map((element)=>{
+        return [element,d[element]]
+    });
+    return data
 }
 //converting data to requried format to plot using highcharts
 function convertData(d){
@@ -36,12 +35,9 @@ function convertData(d){
             }
             pog++;
     }
-    output=[]
-    for(let i in accumulator){
-               output.push({name:i,
-            data:accumulator[i]})
-    }
-    console.log(output)
+    output=Object.keys(accumulator).map((element)=>({name:element,
+        data:accumulator[element]})
+    );
     return output;
     }
 
@@ -82,7 +78,7 @@ let Top10Bowlers = {
         tooltip:{pointFormat:'Economy rate in  2015: <b>{point.y:.1f} runs/over</b>'}
 }
 //fetching and ploting  matchesPerYear 
-featchData("matchesPerYear.json")
+featchData("./public/matchesPerYear.json")
 .then(res => res.json())
 .then((data)=>convertDataFormat(data))
 .then((data)=>drawChart(matchesEachYear,[{
@@ -92,14 +88,14 @@ featchData("matchesPerYear.json")
 .catch((error)=>console.log(error));
 
 //fetching and ploting matches won per year per team
-featchData("matchesWonPerTeamPerYear.json")
+featchData("./public/matchesWonPerTeamPerYear.json")
 .then(res => res.json())
 .then((data)=>convertData(data))
 .then((data)=>drawChart(matchesWon,data))
 .catch((err)=>console.log(err));
 
 //fetching and ploting top10 economy bowlers
-featchData("Top10EcoBowlers.json")
+featchData("./public/Top10EcoBowlers.json")
 .then(res => res.json())
 .then((data)=>convertDataFormat(data))
 .then((data)=>drawChart(Top10Bowlers,[{
@@ -109,7 +105,7 @@ featchData("Top10EcoBowlers.json")
 .catch((err)=>console.log(err));
 
 //fetching and ploting ExtraRuns
-featchData("ExtraRunsPerTeam2016.json")
+featchData("./public/ExtraRunsPerTeam2016.json")
 .then(res => res.json())
 .then((data)=>convertDataFormat(data))
 .then((data)=>drawChart(extraRuns,[{
