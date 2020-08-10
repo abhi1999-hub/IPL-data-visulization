@@ -20,6 +20,13 @@ function noOfMatchWonPerYear(database){
     return connectdatabase(database,query).then((output)=>fs.writeFile('..//output//matchesWonPerTeamPerYear.json',JSON.stringify(output), (err)=>
     console.log("matchesWonPerTeamPerYear File written")))
 }
+function extraRuns2016(database){
+    const query="SELECT bowling_team AS team , sum(extra_runs) AS Extra_runs FROM deliveries WHERE match_id IN (SELECT id FROM matches WHERE season=2016) GROUP BY(bowling_team)"
+    return connectdatabase(database,query).then((output)=>fs.writeFile('..//output//ExtraRunsPerTeam2016.json',JSON.stringify(output), (err)=>
+    console.log("ExtraRunsPerTeam2016 File written")))
+}
 
 module.exports.noOfMatchesPerYear=noOfMatchesPerYear;
 module.exports.noOfMatchWonPerYear=noOfMatchWonPerYear;
+module.exports.extraRuns2016=extraRuns2016;
+//module.exports.topTenEcoBowler2015=topTenEcoBowler2015;
