@@ -25,8 +25,14 @@ function extraRuns2016(database){
     return connectdatabase(database,query).then((output)=>fs.writeFile('..//output//ExtraRunsPerTeam2016.json',JSON.stringify(output), (err)=>
     console.log("ExtraRunsPerTeam2016 File written")))
 }
+function topTenEcoBowler2015(database){
+    const query="SELECT deliveries.bowler, sum(deliveries.total_runs-deliveries.bye_runs-deliveries.legbye_runs)/(count(a1.id)/6) AS econamy FROM deliveries LEFT JOIN (SELECT * FROM deliveries WHERE noball_runs=0 and wide_runs=0) AS a1 ON deliveries.id=a1.id WHERE deliveries.match_id in (SELECT id FROM matches WHERE season=2015) GROUP BY(deliveries.bowler) ORDER BY econamy LIMIT 10"
+     
+    connectdatabase(database,query).then((output)=>fs.writeFile('..//output//TopTenEcoBowlers.json',JSON.stringify(output), (err)=>
+    console.log("TopTenECOBowlers2015 File written")))
 
+}
 module.exports.noOfMatchesPerYear=noOfMatchesPerYear;
 module.exports.noOfMatchWonPerYear=noOfMatchWonPerYear;
 module.exports.extraRuns2016=extraRuns2016;
-//module.exports.topTenEcoBowler2015=topTenEcoBowler2015;
+module.exports.topTenEcoBowler2015=topTenEcoBowler2015;

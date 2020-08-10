@@ -24,5 +24,5 @@ connectDatabase().then((output)=>{
 func.noOfMatchesPerYear(database)
 func.noOfMatchWonPerYear(database)
 func.extraRuns2016(database)
-//func.topTenEcoBowler2015(database)
+func.topTenEcoBowler2015(database)
 database.end()
