@@ -15,7 +15,11 @@ function noOfMatchesPerYear(database){
     connectdatabase(database,query).then((output)=>fs.writeFile('..//output//matchesPerYear.json',JSON.stringify(output), (err)=>
     console.log("matchesPerYear File written")))
 }
-
+function noOfMatchWonPerYear(database){
+    const query="SELECT season,winner as Team, count(*) as matches_won FROM matches GROUP BY winner,season"
+    return connectdatabase(database,query).then((output)=>fs.writeFile('..//output//matchesWonPerTeamPerYear.json',JSON.stringify(output), (err)=>
+    console.log("matchesWonPerTeamPerYear File written")))
+}
 
 module.exports.noOfMatchesPerYear=noOfMatchesPerYear;
-//module.exports.noOfMatchWonPerYear=noOfMatchWonPerYear;
+module.exports.noOfMatchWonPerYear=noOfMatchWonPerYear;

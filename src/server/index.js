@@ -22,7 +22,7 @@ connectDatabase().then((output)=>{
     console.log(output)
 }).catch(console.log)
 func.noOfMatchesPerYear(database)
-//func.noOfMatchWonPerYear(database)
+func.noOfMatchWonPerYear(database)
 //func.extraRuns2016(database)
 //func.topTenEcoBowler2015(database)
 database.end()
